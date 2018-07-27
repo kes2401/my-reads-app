@@ -9,17 +9,22 @@ class BookList extends React.Component {
     books: []
   }
 
-  getBooks = () => {
-    BooksAPI.getAll().then(books => this.setState({books}));
-  }
-
   componentDidMount() {
     this.getBooks();
-    console.log("BookList loaded!");
   }
 
+  getBooks = () => {
+    BooksAPI.getAll().then((books) => {this.setState({books})});
+  }
+
+  updateBook = (bookId, shelf) => {
+    BooksAPI.update({id: bookId}, shelf).then(this.getBooks);
+  }
+
+
   render() {
-  	return  <div className="list-books">
+  	return  (
+            <div className="list-books">
               <div className="list-books-title">
                 <h1>MyReads</h1>
               </div>
@@ -31,7 +36,7 @@ class BookList extends React.Component {
                       <ol className="books-grid">
                         {this.state.books.filter(book => book.shelf === 'currentlyReading')
                           .map(book => (
-                            <Book key={book.id} book={book} thumbnail={book.imageLinks.thumbnail} title={book.title} authors={book.authors} />
+                            <Book key={book.id} bookId={book.id} value={book.shelf} updateBookshelf={this.updateBook} book={book} thumbnail={book.imageLinks.thumbnail} title={book.title} authors={book.authors} />
                           ))}
                       </ol>
                     </div>
@@ -42,7 +47,7 @@ class BookList extends React.Component {
                       <ol className="books-grid">
                         {this.state.books.filter(book => book.shelf === 'wantToRead')
                           .map(book => (
-                            <Book key={book.id} book={book} thumbnail={book.imageLinks.thumbnail} title={book.title} authors={book.authors} />
+                            <Book key={book.id} bookId={book.id} value={book.shelf} updateBookshelf={this.updateBook} book={book} thumbnail={book.imageLinks.thumbnail} title={book.title} authors={book.authors} />
                           ))}
                       </ol>
                     </div>
@@ -53,7 +58,7 @@ class BookList extends React.Component {
                       <ol className="books-grid">
                         {this.state.books.filter(book => book.shelf === 'read')
                           .map(book => (
-                            <Book key={book.id} book={book} thumbnail={book.imageLinks.thumbnail} title={book.title} authors={book.authors} />
+                            <Book key={book.id} bookId={book.id} value={book.shelf} updateBookshelf={this.updateBook} book={book} thumbnail={book.imageLinks.thumbnail} title={book.title} authors={book.authors} />
                           ))}
                       </ol>
                     </div>
@@ -64,6 +69,7 @@ class BookList extends React.Component {
                 <Link to='/search'>Add a book</Link>
               </div>
             </div>
+          )
   }
 }
 
