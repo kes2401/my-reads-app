@@ -11,13 +11,23 @@ class Search extends React.Component {
 	}
 
 	updateQuery = (query) => {
-		this.setState({query: query.trim()})
+
+		this.setState({query: query})
+
+		if (query === '') {
+			this.setState({results: []});
+		}
+	
 		if (query.length) {
 			BooksAPI.search(query).then((books) => {
-				this.setState({results: books})
+				if (books.length) {
+					this.setState({results: books})
+				}
 			})
 		}	
 	}
+
+
 
 	updateBook = (bookId, shelf) => {
 	    BooksAPI.update({id: bookId}, shelf);
@@ -36,7 +46,7 @@ class Search extends React.Component {
 		                <div className="search-books-results">
 		              <ol className="books-grid">           	
 		              		{this.state.results.map((book) => (
-		              			<Book key={book.id} bookId={book.id} value={book.shelf} updateBookshelf={this.updateBook} book={book} thumbnail={book.imageLinks.thumbnail} title={book.title} authors={book.authors} />
+		              			<Book key={book.id} bookId={book.id} value={"none"} updateBookshelf={this.updateBook} book={book} title={book.title} authors={book.authors} />
 		              		))}
 		              </ol>
 		            </div>

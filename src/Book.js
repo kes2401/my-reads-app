@@ -6,7 +6,7 @@ const Book = (props) => {
 		<li>
 	        <div className="book">
 	           <div className="book-top">
-	             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${props.thumbnail})` }}></div>
+	             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${props.book.imageLinks ? props.book.imageLinks.smallThumbnail : 'https://via.placeholder.com/128x193?text=no+image+found'})`}}></div>
 	             <div className="book-shelf-changer">
 	               <select onChange={(event) => (props.updateBookshelf(props.bookId, event.target.value))} value={props.value}>
 	                 <option value="move" disabled>Move to...</option>
@@ -18,7 +18,7 @@ const Book = (props) => {
 	             </div>
 	           </div>
 	           <div className="book-title">{props.title}</div>
-	           <div className="book-authors">{props.authors}</div>
+	           <div className="book-authors">{props.authors ? props.authors : "no author details"}</div>
 	         </div>
 	     </li>
 	);
