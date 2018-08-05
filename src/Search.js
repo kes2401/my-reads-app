@@ -20,7 +20,9 @@ class Search extends React.Component {
 	
 		if (query.length) {
 			BooksAPI.search(query).then((books) => {
-				if (books.length) {
+				if (books.error) {
+					this.setState({results: []});
+				} else if (books.length) {
 					this.setState({results: books})
 				}
 			})
