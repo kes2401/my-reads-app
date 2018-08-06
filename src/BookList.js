@@ -1,26 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import * as BooksAPI from './BooksAPI'
 import Shelf from './Shelf'
 
 class BookList extends React.Component {
-
-  state = {
-    books: []
-  }
-
-  componentDidMount() {
-    this.getBooks();
-  }
-
-  getBooks = () => {
-    BooksAPI.getAll().then((books) => {this.setState({books})});
-  }
-
-  updateBook = (bookId, shelf) => {
-    BooksAPI.update({id: bookId}, shelf).then(this.getBooks);
-  }
-
 
   render() {
   	return  (
@@ -30,9 +12,9 @@ class BookList extends React.Component {
               </div>
               <div className="list-books-content">
                 <div>
-                  <Shelf books={this.state.books} shelf='currentlyReading' shelfTitle='Currently Reading' />  
-                  <Shelf books={this.state.books} shelf='wantToRead' shelfTitle='Want to Read' />  
-                  <Shelf books={this.state.books} shelf='read' shelfTitle='Read' />  
+                  <Shelf books={this.props.books} shelf='currentlyReading' onUpdateShelf={this.props.onUpdateShelf} shelfTitle='Currently Reading' />  
+                  <Shelf books={this.props.books} shelf='wantToRead' onUpdateShelf={this.props.onUpdateShelf} shelfTitle='Want to Read' />  
+                  <Shelf books={this.props.books} shelf='read' onUpdateShelf={this.props.onUpdateShelf} shelfTitle='Read' />  
                 </div>
               </div>
               <div className="open-search">

@@ -2,7 +2,10 @@ import React from 'react';
 
 const Book = (props) => {
 
-	const style = {width: 128, height: 193, backgroundImage: `url(${props.book.imageLinks ? props.book.imageLinks.smallThumbnail : 'https://via.placeholder.com/128x193?text=no+image+found'})`};
+	const style =  {width: 128,
+					height: 193,
+					backgroundImage: `url(${props.book.imageLinks ? props.book.imageLinks.smallThumbnail : 'https://via.placeholder.com/128x193?text=no+image+found'})`
+				   };
 
 	return (
 		<li>
@@ -10,7 +13,7 @@ const Book = (props) => {
 	           <div className="book-top">
 	             <div className="book-cover" style={style}></div>
 	             <div className="book-shelf-changer">
-	               <select onChange={(event) => (props.updateBookshelf(props.bookId, event.target.value))} value={props.value}>
+	               <select onChange={(event) => {props.onUpdateShelf(props.bookId, event.target.value)}} value={props.shelf}>
 	                 <option value="move" disabled>Move to...</option>
 	                 <option value="currentlyReading">Currently Reading</option>
 	                 <option value="wantToRead">Want to Read</option>

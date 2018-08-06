@@ -22,18 +22,26 @@ class Search extends React.Component {
 			BooksAPI.search(query).then((books) => {
 				if (books.error) {
 					this.setState({results: []});
-				} else if (books.length) {
-					this.setState({results: books})
+				} else {
+					let updatedBooks = this.getCurrentShelf(this.props.books, books);
+					this.setState({results: updatedBooks});
 				}
 			})
 		}	
 	}
 
+	getCurrentShelf = (currentBooks, searchResults) => {	
+		for (let i = 0; i < currentBooks.length ; i++) {
+			for (let j = 0; j < searchResults.length; j++) {
+				
+				if (searchResults[j].id === currentBooks[i].id) {
+					searchResults[j].shelf = currentBooks[i].shelf;
+				} 
+			}
+		}			
 
-
-	updateBook = (bookId, shelf) => {
-	    BooksAPI.update({id: bookId}, shelf);
-    }
+		return searchResults;
+	}
 
 	render() {
 		return (
@@ -48,7 +56,7 @@ class Search extends React.Component {
 		                <div className="search-books-results">
 		              <ol className="books-grid">           	
 		              		{this.state.results.map((book) => (
-		              			<Book key={book.id} bookId={book.id} value={"none"} updateBookshelf={this.updateBook} book={book} title={book.title} authors={book.authors} />
+		              			<Book key={book.id} bookId={book.id} shelf={book.shelf ? book.shelf : 'none'} onUpdateShelf={this.props.onUpdateShelf} book={book} title={book.title} authors={book.authors} />
 		              		))}
 		              </ol>
 		            </div>
